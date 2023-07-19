@@ -13,6 +13,7 @@
     "files.exclude": {
       "supabase/functions/": true
     },
-    "editor.indentSize": "2"
+    "editor.indentSize": 2,
+    "typescript.tsdk": "project-root/node_modules/typescript/lib"
   }
 }
