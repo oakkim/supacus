@@ -1,15 +1,36 @@
 import { useState } from "react"
 import commentRepository from "../../../repositories/comment"
+import { Comment, CommentInsertDto, Comments, Response } from "../../../libs/supabase/types"
 
-export default function CommentEditor() {
+type CommentEditorProps = {
+  userId: string,
+  siteId: number,
+  contentId: string,
+  onSubmit: () => void
+}
+
+export default function CommentEditor({ userId, siteId, contentId, onSubmit }: CommentEditorProps) {
   const [content, setContent] = useState<string>("")
+  const [result, setResult] = useState<Response<Comments> | null>(null)
+  
   return (
     <div>
       <input type="text" value={content} onChange={e => setContent(e.target.value)}/> 
+      <div>
+        {userId}
+      </div>
       <button onClick={() => {
-        const f = async () => {
-          commentRepository.saveComment()
+        const insert = async () => {
+          const comment: CommentInsertDto = {
+            content,
+            content_id: contentId,
+            site_id: siteId,
+            user_id: userId,
+          };
+          await commentRepository.saveComment(comment);
+          onSubmit();
         }
+        insert();
       }}>submit</button>
     </div>
   )
