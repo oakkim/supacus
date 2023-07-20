@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { Profile, ProfileInsertDto } from "../../libs/supabase/types";
-import profileRepository from "../../repositories/profile";
-import { User } from "@supabase/supabase-js";
+import { useEffect, useState } from "react"
+import { Profile, ProfileInsertDto } from "../../libs/supabase/types"
+import profileRepository from "../../repositories/profile"
+import { User } from "@supabase/supabase-js"
 
 const useProfile = (user: User|null) => {
-	const [profile, setProfile] = useState<Profile|null>(null);
+	const [profile, setProfile] = useState<Profile|null>(null)
 
   const insertProfile = async (user: User) => {
     const profile: ProfileInsertDto = {
@@ -32,4 +32,4 @@ const useProfile = (user: User|null) => {
   return profile
 }
 
-export default useProfile;
+export default useProfile

@@ -11,7 +11,7 @@ export default function App() {
       const { data: { session }} = await supabase.auth.getSession()
       setSession(session)
     }
-    void getSession();
+    void getSession()
     
     // .then(({ data: { session } }) => {
     //   setSession(session)

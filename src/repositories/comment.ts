@@ -1,5 +1,5 @@
-import supabase from "../libs/supabase";
-import { Comment, CommentInsertDto, Comments, Profile, Response } from "../libs/supabase/types";
+import supabase from "../libs/supabase"
+import { Comment, CommentInsertDto, Comments, Profile, Response } from "../libs/supabase/types"
 
 export type GetCommentsDto = Comment & {
 	profiles: Profile

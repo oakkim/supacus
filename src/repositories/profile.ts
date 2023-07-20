@@ -1,5 +1,5 @@
-import supabase from "../libs/supabase";
-import { Profiles, ProfileInsertDto, Profile, Response } from "../libs/supabase/types";
+import supabase from "../libs/supabase"
+import { Profiles, ProfileInsertDto, Profile, Response } from "../libs/supabase/types"
 
 class ProfileRepository {
 	public async fetchOne(id: string): Promise<Response<Profile|null>> {

@@ -1,12 +1,12 @@
 class Comment {
-    id: number;
-    userId: string;
-    content: string;
-    siteId: number;
-    contentId: string;
-    parentId: number;
-    ip: string;
-    createdAt: Date;
+    id: number
+    userId: string
+    content: string
+    siteId: number
+    contentId: string
+    parentId: number
+    ip: string
+    createdAt: Date
 
     constructor(
         id: number,
