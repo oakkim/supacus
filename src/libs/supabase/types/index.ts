@@ -10,9 +10,10 @@ export type Row<T extends TableNames> = Table<T>['Row'];
 export type InsertDto<T extends TableNames> = Table<T>['Insert'];
 export type UpdateDto<T extends TableNames> = Table<T>['Update'];
 
-export type Response<T extends Schema<any>> = PostgrestSingleResponse<T['table']['Row'][]>;
-export type ResponseData<T extends Schema<any>> = Response<T>['data'];
-export type ResponseError<T extends Schema<any>> = Response<T>['error'];
+export type SchemaResponse<T extends Schema<any>> = PostgrestSingleResponse<T['table']['Row'][]>;
+export type Response<T> = PostgrestSingleResponse<T>
+export type ResponseData<T> = Response<T>['data'];
+export type ResponseError<T> = Response<T>['error'];
 
 // -------Schema-------
 export type Schema<T extends TableNames> = {
@@ -22,10 +23,16 @@ export type Schema<T extends TableNames> = {
 
 export type Sites = Schema<'sites'>;
 export type Comments = Schema<'comments'>;
+export type Profiles = Schema<'profiles'>;
 
 export type Site = Row<'sites'>;
-
+export type SiteInsertDto = InsertDto<'sites'>
+export type SiteUpdateDto = UpdateDto<'sites'>
 
 export type Comment = Row<'comments'>;
 export type CommentInsertDto = InsertDto<'comments'>
 export type CommentUpdateDto = UpdateDto<'comments'>
+
+export type Profile = Row<'profiles'>;
+export type ProfileInsertDto = InsertDto<'profiles'>
+export type ProfileUpdateDto = UpdateDto<'profiles'>

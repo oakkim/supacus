@@ -1,11 +1,20 @@
-import { Row } from "../../../libs/supabase/types";
+import { Comment, Profile } from "../../../libs/supabase/types"
 
-type CommentProps = Row<'comments'>
+type CommentItemProps = {
+  comment: Comment,
+  profile: Profile
+}
 
-export default function CommentItem(props: CommentProps) {
+export default function CommentItem({comment, profile}: CommentItemProps) {
   return (
     <div>
-      {props.content}
+      {profile.avatar_url && <img src={profile.avatar_url} width="30"/>}
+      <div>
+        {profile.user_name}
+      </div>
+      <div>
+        {comment.content}
+      </div>
     </div>
   )
 }

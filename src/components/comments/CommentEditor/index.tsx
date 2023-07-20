@@ -1,6 +1,6 @@
 import { useState } from "react"
 import commentRepository from "../../../repositories/comment"
-import { Comment, CommentInsertDto, Comments, Response } from "../../../libs/supabase/types"
+import { Comment, CommentInsertDto, Comments, SchemaResponse } from "../../../libs/supabase/types"
 
 type CommentEditorProps = {
   userId: string,
@@ -11,7 +11,7 @@ type CommentEditorProps = {
 
 export default function CommentEditor({ userId, siteId, contentId, onSubmit }: CommentEditorProps) {
   const [content, setContent] = useState<string>("")
-  const [result, setResult] = useState<Response<Comments> | null>(null)
+  const [result, setResult] = useState<SchemaResponse<Comments> | null>(null)
   
   return (
     <div>
@@ -26,11 +26,11 @@ export default function CommentEditor({ userId, siteId, contentId, onSubmit }: C
             content_id: contentId,
             site_id: siteId,
             user_id: userId,
-          };
-          await commentRepository.saveComment(comment);
-          onSubmit();
+          }
+          await commentRepository.saveComment(comment)
+          onSubmit()
         }
-        insert();
+        insert()
       }}>submit</button>
     </div>
   )

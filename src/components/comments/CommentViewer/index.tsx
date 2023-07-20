@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import commentRepository, { GetCommentsDto } from "../../../repositories/comment"
+import commentRepository from "../../../repositories/comment"
 import CommentItem from "../CommentItem"
 
 type CommentViewerProps = {
@@ -8,16 +8,16 @@ type CommentViewerProps = {
 }
 
 export default function CommentViewer({ siteId, contentId }: CommentViewerProps) {
-  const { isLoading, data, error } = useQuery<GetCommentsDto[]|null, unknown, GetCommentsDto[]|null, string[]>({
+  const { isLoading, data } = useQuery({
     queryKey: ['comments'],
-    queryFn: () => commentRepository.fetchCommentsBySiteAndContent(siteId, contentId).then(r => r.data)
+    queryFn: () => commentRepository.fetchBySiteAndContent(siteId, contentId).then(r => r.data)
   })
   console.log(data)
 
   return (
     <div>
-      {isLoading ? <></> : (data ?? []).map((comment) => (
-        <CommentItem key={comment.id} {...comment}/>
+      {isLoading ? <>로딩중</> : (data ?? []).map((comment) => (
+        <CommentItem key={comment.id} comment={comment} profile={comment.profiles}/>
       ))}
     </div>
   )
