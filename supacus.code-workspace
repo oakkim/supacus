@@ -13,7 +13,15 @@
     "files.exclude": {
       "supabase/functions/": true
     },
+    "files.associations": {
+      "*.css": "tailwindcss",
+    },
+    "tailwindCSS.includeLanguages": { 
+      "plaintext": "javascript" 
+    },
+    "editor.detectIndentation": true,
     "editor.indentSize": 2,
+    "editor.tabSize": 2,
     "typescript.tsdk": "project-root/node_modules/typescript/lib"
   }
 }
