@@ -7,6 +7,10 @@ import { userAction } from '../../stores/user'
 import { RootState } from '../../stores'
 import useProfile from '../../hooks/user/useProfile'
 import { User } from '@supabase/supabase-js'
+import dayjs from 'dayjs'
+import "dayjs/locale/ko"
+
+dayjs.locale('ko')
 
 export default function Widget() {
   const [commentViewerKey, setCommentViewerKey] = useState<number>(1)
