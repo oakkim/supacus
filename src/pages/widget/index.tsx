@@ -41,9 +41,22 @@ export default function Widget() {
     return () => subscription.unsubscribe()
   }, [])
 
-  if (!user) {
-    return (
+  return (
+    <div>
+      Logged in!
+      <CommentViewer key={commentViewerKey} className="mb-5" siteId={1} contentId='test' userId={user?.id}/>
+      <CommentEditor userId={user?.id} profile={profile} siteId={1} contentId='test' onSubmit={() => { setCommentViewerKey(commentViewerKey + 1) }}/>
       <div>
+        {user?.email}
+      </div>
+      {user ? 
+        <button onClick={() => {
+          const logout = async () => {
+            await supabase.auth.signOut()
+            window.location.reload()
+          }
+          logout()
+        }}>로그아웃</button> :
         <button onClick={() => {
           void supabase.auth.signInWithOAuth({
             provider: 'kakao',
@@ -52,22 +65,7 @@ export default function Widget() {
             }
           })
         }}>Login with kakao</button>
-      </div>
-    )
-  }
-  else {
-    return (
-      <div>
-        Logged in!
-        <CommentViewer key={commentViewerKey} siteId={1} contentId='test'/>
-        <CommentEditor userId={user?.id} siteId={1} contentId='test' onSubmit={() => { setCommentViewerKey(commentViewerKey + 1) }}/>
-        <div>
-          {user?.email}
-        </div>
-        <button onClick={() => {
-          void supabase.auth.signOut()
-        }}>로그아웃</button>
-      </div>
-    )
-  }
+      }
+    </div>
+  )
 }
