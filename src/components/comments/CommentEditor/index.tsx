@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react"
 import commentRepository from "../../../repositories/comment"
 import { Comment, CommentInsertDto, Comments, Profile, SchemaResponse } from "../../../libs/supabase/types"
+import sha512 from 'crypto-js/sha512'
 
 type CommentEditorProps = {
   className?: string,
@@ -15,7 +16,6 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
   const [nickname, setNickname] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [content, setContent] = useState<string>("")
-  const [result, setResult] = useState<SchemaResponse<Comments> | null>(null)
 
   const saveComment = useCallback(() => {
     const insert = async () => {
@@ -27,7 +27,7 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
       }
       if (userId == null) {
         comment.nickname = nickname
-        comment.password = password
+        comment.password = sha512(password).toString()
       }
       await commentRepository.save(comment)
       setContent("")
@@ -41,8 +41,8 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
       <div className="flex mb-2 justify-start">
       {
         !!userId ? <>
-          {profile?.avatar_url && <img className="rounded-full border" src={profile.avatar_url} width="30"/>}
-          <div className="ml-2">
+          {profile?.avatar_url && <img className="rounded-full border mr-2" src={profile.avatar_url} width="30"/>}
+          <div>
             {profile?.user_name}
           </div>
         </> : <>
