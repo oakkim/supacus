@@ -4,7 +4,7 @@ import CommentItem from "../CommentItem"
 import ContextMenu from "../../ContextMenu"
 import ContextMenuItem from "../../ContextMenu/ContextMenuItem"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
-import { createRef, useRef, useState } from "react"
+import { useState } from "react"
 import useComponentVisible from "../../../hooks/useComponentVisible"
 
 type CommentViewerProps = {
@@ -20,7 +20,7 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
     queryFn: () => commentRepository.fetchBySiteAndContent(siteId, contentId).then(r => r.data)
   })
 
-  const {ref, isComponentVisible, setIsComponentVisible} = useComponentVisible(false)
+  const {ref, componentVisible, setComponentVisible} = useComponentVisible(false)
   const [workingCommentId, setWorkingCommentId] = useState<number|null>(null)
   const [top, setTop] = useState(0)
   const [left, setLeft] = useState(0)
@@ -29,7 +29,7 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
     <div className={`pt-3 border-t border-x ${className}`}>
       <ContextMenu
         ref={ref}
-        className={`${isComponentVisible ? '' : 'invisible'} absolute bg-white`}
+        className={`${componentVisible ? '' : 'invisible'} absolute bg-white`}
         style={{top: top, left: left}}>
         <ContextMenuItem
           id="edit"
@@ -48,6 +48,7 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
                 refetch()
               }
               deleteComment()
+              setComponentVisible(false)
             }
           }}/>
       </ContextMenu>
@@ -59,7 +60,7 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
           userId={userId}
           onContextMenuOpen={(id, e) => {
             setWorkingCommentId(id)
-            setIsComponentVisible(true)
+            setComponentVisible(true)
             const rect = e.currentTarget.getBoundingClientRect()
             setLeft(rect.left - ((ref.current?.clientWidth ?? 0) + window.scrollX))
             setTop(rect.top + ((e.currentTarget.clientHeight / 2) + window.scrollY))

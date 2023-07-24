@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 
 export default function useComponentVisible(initialIsVisible: boolean) {
-    const [isComponentVisible, setIsComponentVisible] = useState(initialIsVisible);
+    const [componentVisible, setComponentVisible] = useState(initialIsVisible);
     const ref = useRef<HTMLDivElement>(null);
 
     const handleHideDropdown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
-            setIsComponentVisible(false);
+            setComponentVisible(false);
         }
     };
 
     const handleClickOutside = (event: Event) => {
         if (ref.current && !ref.current.contains(event.target as Node)) {
-            setIsComponentVisible(false);
+            setComponentVisible(false);
         }
     };
 
@@ -25,5 +25,5 @@ export default function useComponentVisible(initialIsVisible: boolean) {
         };
     });
 
-    return { ref, isComponentVisible, setIsComponentVisible };
+    return { ref, componentVisible, setComponentVisible };
 }
