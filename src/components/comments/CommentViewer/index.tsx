@@ -61,8 +61,8 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
             setWorkingCommentId(id)
             setIsComponentVisible(true)
             const rect = e.currentTarget.getBoundingClientRect()
-            setLeft(rect.left - (ref.current?.clientWidth ?? 0))
-            setTop(rect.top + (e.currentTarget.clientHeight / 2))
+            setLeft(rect.left - ((ref.current?.clientWidth ?? 0) + window.scrollX))
+            setTop(rect.top + ((e.currentTarget.clientHeight / 2) + window.scrollY))
           }}/>
       ))}
     </div>
