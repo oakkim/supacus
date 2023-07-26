@@ -2,6 +2,8 @@ import { useCallback, useState } from "react"
 import commentRepository from "../../../repositories/comment"
 import { Comment, CommentInsertDto, Comments, Profile, SchemaResponse } from "../../../libs/supabase/types"
 import sha512 from 'crypto-js/sha512'
+import kakaoLogo from '../../../assets/auth/icons/icon_kakao.svg'
+import supabase from "../../../libs/supabase"
 
 type CommentEditorProps = {
   className?: string,
@@ -9,10 +11,11 @@ type CommentEditorProps = {
   profile?: Profile|null,
   siteId: number,
   contentId: string,
+  allowAnonymous?: boolean,
   onSubmit: () => void
 }
 
-export default function CommentEditor({ className, userId, profile, siteId, contentId, onSubmit }: CommentEditorProps) {
+export default function CommentEditor({ className, userId, profile, siteId, contentId, allowAnonymous = false, onSubmit }: CommentEditorProps) {
   const [nickname, setNickname] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [content, setContent] = useState<string>("")
@@ -40,24 +43,38 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
     <div className={`flex flex-col p-3 border ${className}`}>
       <div className="flex mb-2 justify-start">
       {
-        !!userId ? <>
+        !!userId ? <div>
           {profile?.avatar_url && <img className="rounded-full border mr-2" src={profile.avatar_url} width="30"/>}
           <div>
             {profile?.user_name}
           </div>
-        </> : <>
-          <input type="text"
-            name="nickname"
-            placeholder="닉네임"
-            className="border rounded-md pl-1.5 py-1.5 mr-2 text-sm w-24"
-            value={nickname}
-            onChange={e => setNickname(e.target.value)}/>
-          <input type="password"
-            name="password"
-            placeholder="비밀번호"
-            className="border rounded-md pl-1.5 py-1.5 text-sm"
-            value={password}
-            onChange={e => setPassword(e.target.value)}/>
+        </div> : <>
+          {allowAnonymous ? 
+            <>
+              <input type="text"
+                name="nickname"
+                placeholder="닉네임"
+                className="border rounded-md pl-1.5 py-1.5 mr-2 text-sm w-24"
+                value={nickname}
+                onChange={e => setNickname(e.target.value)}/>
+              <input type="password"
+                name="password"
+                placeholder="비밀번호"
+                className="border rounded-md pl-1.5 py-1.5 text-sm"
+                value={password}
+                onChange={e => setPassword(e.target.value)}/>
+              </>
+            :
+            <div className="flex">
+              <div className="flex items-center justify-center bg-kakao p-2 rounded-md cursor-pointer" onClick={() => {
+                  void supabase.auth.signInWithOAuth({
+                    provider: 'kakao',
+                  })
+                }}>
+                <img src={kakaoLogo} className="w-4"/>
+              </div>
+            </div>
+          }
         </>
       }
       </div>
