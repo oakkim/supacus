@@ -25,6 +25,10 @@ class CommentRepository {
   public async delete(commentId: number): Promise<Response<null>> {
     return await supabase.from('comments').delete().eq('id', commentId)
   }
+
+	public async deleteAnonComment(commentId: number, password: string): Promise<Response<null>> {
+		return await supabase.rpc('delete_anon_comment', {id: commentId, password})
+	}
 }
 
 const commentRepository = new CommentRepository()
