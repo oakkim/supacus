@@ -13,6 +13,8 @@ import {
 } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
 import store from './stores/index'
+import Login from './pages/login/index.tsx'
+import LoginCompleted from './pages/login/LoginCompleted.tsx'
 
 const queryClient = new QueryClient()
 
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
   {
     path: "/sites/:sitesId/widget",
     element: <Widget/>
+  },
+  {
+    path: '/login',
+    element: <Login/>
+  },
+  {
+    path: '/login-completed',
+    element: <LoginCompleted/>
   }
 ])
 
