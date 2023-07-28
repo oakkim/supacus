@@ -6,6 +6,7 @@ import ContextMenuItem from "../../ContextMenu/ContextMenuItem"
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
 import useComponentVisible from "../../../hooks/useComponentVisible"
+import sha512 from 'crypto-js/sha512'
 
 type CommentViewerProps = {
   className?: string
@@ -43,11 +44,24 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
           title="삭제"
           onClick={() => {
             if (workingCommentId != null) {
+              const comment = data?.find(c => c.id == workingCommentId)
+              if (!comment) return
+
               const deleteComment = async () => {
                 await commentRepository.delete(workingCommentId)
                 refetch()
               }
-              deleteComment()
+              const deleteAnonComment = async () => {
+                const password = sha512(window.prompt('비밀번호') ?? "").toString()
+                console.log(await commentRepository.deleteAnonComment(workingCommentId, password))
+                refetch()
+              }
+
+              if (comment.user_id == null) {
+                deleteAnonComment()
+              } else {
+                deleteComment()
+              }
               setComponentVisible(false)
             }
           }}/>
