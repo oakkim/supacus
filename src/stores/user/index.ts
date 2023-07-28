@@ -19,8 +19,9 @@ const initialState: UserState = {
 
 const reducers: {
   setLoggedIn: CaseReducer<UserState, PayloadAction<boolean>>,
-  setUser: CaseReducer<UserState, PayloadAction<User>>,
-  setProfile: CaseReducer<UserState, PayloadAction<Profile>>,
+  setUser: CaseReducer<UserState, PayloadAction<User|null>>,
+  setProfile: CaseReducer<UserState, PayloadAction<Profile|null>>,
+  reset: CaseReducer<UserState>
 } = {
   setLoggedIn(state, action) {
     state.loggedIn = action.payload
@@ -32,7 +33,13 @@ const reducers: {
 
   setProfile(state, action) {
     state.profile = action.payload
-  }
+  },
+
+  reset(state) {
+    state.loggedIn = false
+    state.profile = null
+    state.user = null
+  },
 }
     // setUserAgent: (state: UserState, action: PayloadAction<string>) => {
     //   state.userAgent = action.payload
