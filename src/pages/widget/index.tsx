@@ -1,50 +1,22 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 import supabase from '../../libs/supabase'
 import CommentViewer from '../../components/comments/CommentViewer'
 import CommentEditor from '../../components/comments/CommentEditor'
-import { useDispatch, useSelector } from 'react-redux'
-import { userAction } from '../../stores/user'
+import { useSelector } from 'react-redux'
 import { RootState } from '../../stores'
 import useProfile from '../../hooks/user/useProfile'
-import { Session, User } from '@supabase/supabase-js'
+import { User } from '@supabase/supabase-js'
 import dayjs from 'dayjs'
 import "dayjs/locale/ko"
+import withAuthStateListener from '../../hocs/withAuthStateListener'
 
 dayjs.locale('ko')
 
-export default function Widget() {
+function Widget() {
   const [commentViewerKey, setCommentViewerKey] = useState<number>(1)
 
   const user = useSelector<RootState>(state => state.user.user) as User
   const profile = useProfile(user)
-  const dispatch = useDispatch()
-
-  const dispatchOnUserLogin = useCallback((session: Session|null) => {
-    !session?.user || dispatch(userAction.setUser(session!!.user))
-    dispatch(userAction.setLoggedIn(!!(session?.user)))
-  }, [dispatch, userAction])
-
-  useEffect(() => {
-    if (profile != null) {
-      dispatch(userAction.setProfile(profile))
-    }
-  }, [profile])
-
-  useEffect(() => {
-    const getSession = async () => {
-      const { data: { session }} = await supabase.auth.getSession()
-      dispatchOnUserLogin(session)
-    }
-    void getSession()
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      dispatchOnUserLogin(session)
-    })
-
-    return () => subscription.unsubscribe()
-  }, [])
 
   return (
     <div>
@@ -74,3 +46,5 @@ export default function Widget() {
     </div>
   )
 }
+
+export default withAuthStateListener(Widget)
