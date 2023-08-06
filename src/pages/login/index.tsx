@@ -24,7 +24,7 @@ function Login() {
       }})
     }
 
-    if (profile == null) {
+    if (profile == null && user == null) {
       login()
     } else {
       window.location.href = loginCompletedUri
