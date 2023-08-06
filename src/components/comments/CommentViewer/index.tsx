@@ -3,7 +3,7 @@ import commentRepository from "../../../repositories/comment"
 import CommentItem from "../CommentItem"
 import ContextMenu from "../../ContextMenu"
 import ContextMenuItem from "../../ContextMenu/ContextMenuItem"
-import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { TrashIcon } from "@heroicons/react/24/outline"
 import { useState } from "react"
 import useComponentVisible from "../../../hooks/useComponentVisible"
 import sha512 from 'crypto-js/sha512'
