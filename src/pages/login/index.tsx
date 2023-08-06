@@ -20,7 +20,7 @@ function Login() {
   useEffect(() => {
     const login = async () => {
       await supabase.auth.signInWithOAuth({provider: 'kakao', options: {
-        redirectTo: window.location.href
+        redirectTo: window.location.origin + loginCompletedUri
       }})
     }
 
