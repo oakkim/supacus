@@ -34,16 +34,24 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
   const ip = useClientIp()
 
   const saveComment = useCallback(() => {
+    if (userId == null && nickname.trim() == "") {
+      alert("닉네임을 입력해주세요.")
+    }
+
+    if (content.trim() == "") {
+      alert("내용을 입력해주세요.")
+    }
+
     const insert = async () => {
       const comment: CommentInsertDto = {
-        content,
+        content: content.trim(),
         content_id: contentId,
         site_id: siteId,
         user_id: userId,
         ip: ip
       }
       if (userId == null) {
-        comment.nickname = nickname
+        comment.nickname = nickname.trim()
       }
       await commentRepository.save(comment)
       setContent("")
