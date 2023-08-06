@@ -36,10 +36,12 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
   const saveComment = useCallback(() => {
     if (userId == null && nickname.trim() == "") {
       alert("닉네임을 입력해주세요.")
+      return
     }
 
     if (content.trim() == "") {
       alert("내용을 입력해주세요.")
+      return
     }
 
     const insert = async () => {
