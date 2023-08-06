@@ -1,7 +1,6 @@
-import { useCallback, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import commentRepository from "../../../repositories/comment"
 import { CommentInsertDto, Profile } from "../../../libs/supabase/types"
-import sha512 from 'crypto-js/sha512'
 import kakaoLogo from '../../../assets/auth/icons/icon_kakao.svg'
 import supabase from "../../../libs/supabase"
 import ContextMenu from "../../ContextMenu"
@@ -10,6 +9,7 @@ import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline"
 import useComponentVisible from "../../../hooks/useComponentVisible"
 import { useDispatch } from "react-redux"
 import { userAction } from "../../../stores/user"
+import useClientIp from "../../../hooks/useClientIp"
 
 type CommentEditorProps = {
   className?: string,
@@ -22,8 +22,8 @@ type CommentEditorProps = {
 }
 
 export default function CommentEditor({ className, userId, profile, siteId, contentId, allowAnonymous = false, onSubmit }: CommentEditorProps) {
+  const nicknameInputRef = useRef<HTMLInputElement>(null)
   const [nickname, setNickname] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
   const [content, setContent] = useState<string>("")
 
   const {ref, componentVisible, setComponentVisible} = useComponentVisible(false)
@@ -31,6 +31,7 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
   const [top, setTop] = useState<number>(0)
 
   const dispatch = useDispatch()
+  const ip = useClientIp()
 
   const saveComment = useCallback(() => {
     const insert = async () => {
@@ -39,17 +40,17 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
         content_id: contentId,
         site_id: siteId,
         user_id: userId,
+        ip: ip
       }
       if (userId == null) {
         comment.nickname = nickname
-        comment.password = sha512(password).toString()
       }
       await commentRepository.save(comment)
       setContent("")
       onSubmit()
     }
     insert()
-  }, [content, contentId, siteId, userId, onSubmit])
+  }, [nickname, content, contentId, siteId, userId, onSubmit])
   
   return (
     <>
@@ -84,28 +85,24 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
                 </div> : <>
                   {allowAnonymous ? 
                     <>
-                      <input type="text"
+                      <input ref={nicknameInputRef}
+                        type="text"
                         name="nickname"
                         placeholder="닉네임"
                         className="border rounded-md pl-1.5 py-1.5 mr-2 text-sm w-24"
                         value={nickname}
-                        onChange={e => setNickname(e.target.value)}/>
-                      <input type="password"
-                        name="password"
-                        placeholder="비밀번호"
-                        className="border rounded-md pl-1.5 py-1.5 text-sm"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}/>
-                      </>
+                        onChange={(e) => setNickname(e.target.value)}/>
+                    </>
                     :
-                    <div className="flex items-center">
-                      <div className="flex items-center justify-center bg-kakao p-2 rounded-md cursor-pointer w-8 h-8" onClick={() => {
-                          window.open('/login', 'Login', 'width=500, height=800, location=no, toolbars=no')
-                        }}>
-                        <img src={kakaoLogo}/>
-                      </div>
-                    </div>
+                    <></>
                   }
+                  <div className="flex items-center">
+                    <div className="flex items-center justify-center bg-kakao p-2 rounded-md cursor-pointer w-8 h-8" onClick={() => {
+                        window.open('/login', 'Login', 'width=500, height=800, location=no, toolbars=no')
+                      }}>
+                      <img src={kakaoLogo}/>
+                    </div>
+                  </div>
                 </>
               }
             </div>
