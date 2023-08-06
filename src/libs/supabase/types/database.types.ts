@@ -18,7 +18,6 @@ export interface Database {
           ip: string | null
           nickname: string | null
           parent_id: number | null
-          password: string | null
           site_id: number
           updated_at: string
           user_id: string | null
@@ -31,7 +30,6 @@ export interface Database {
           ip?: string | null
           nickname?: string | null
           parent_id?: number | null
-          password?: string | null
           site_id: number
           updated_at?: string
           user_id?: string | null
@@ -44,7 +42,6 @@ export interface Database {
           ip?: string | null
           nickname?: string | null
           parent_id?: number | null
-          password?: string | null
           site_id?: number
           updated_at?: string
           user_id?: string | null
@@ -120,6 +117,27 @@ export interface Database {
           }
         ]
       }
+      test: {
+        Row: {
+          created_at: string | null
+          id: number
+          pw: string | null
+          test: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          pw?: string | null
+          test?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          pw?: string | null
+          test?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       comments_without_passwords: {
@@ -176,7 +194,13 @@ export interface Database {
       }
     }
     Functions: {
-      [_ in never]: never
+      delete_anon_comment: {
+        Args: {
+          id: number
+          password: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
