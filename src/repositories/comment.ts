@@ -1,16 +1,17 @@
 import supabase from "../libs/supabase"
-import { Comment, CommentInsertDto, CommentUpdateDto, CommentsView, Profile, Response } from "../libs/supabase/types"
+import { Comment, CommentInsertDto, CommentUpdateDto, Profile, Response } from "../libs/supabase/types"
 
 export type CommentGetDtoWithProfile = Comment & {
   profiles: Profile
 }
 
 class CommentRepository {
-  public async fetchBySiteAndContent(siteId: number, content_id: string): Promise<Response<CommentGetDtoWithProfile[]>> {
-    return await supabase.from<'comments_without_passwords', CommentsView>('comments_without_passwords')
+  public async fetchBySiteAndContent(siteId: number, contentId: string): Promise<Response<CommentGetDtoWithProfile[]>> {
+    return await supabase.from('comments')
         .select('*, profiles(*)')
         .eq("site_id", siteId)
-        .eq("content_id", content_id)
+        .eq("content_id", contentId)
+        .order('created_at', { ascending: true })
         .returns<CommentGetDtoWithProfile[]>()
   }
 

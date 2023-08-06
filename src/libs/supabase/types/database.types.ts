@@ -140,58 +140,7 @@ export interface Database {
       }
     }
     Views: {
-      comments_without_passwords: {
-        Row: {
-          content: string | null
-          content_id: string | null
-          created_at: string | null
-          id: number | null
-          ip: string | null
-          nickname: string | null
-          parent_id: number | null
-          site_id: number | null
-          updated_at: string | null
-          user_id: string | null
-        }
-        Insert: {
-          content?: string | null
-          content_id?: string | null
-          created_at?: string | null
-          id?: number | null
-          ip?: string | null
-          nickname?: string | null
-          parent_id?: number | null
-          site_id?: number | null
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          content?: string | null
-          content_id?: string | null
-          created_at?: string | null
-          id?: number | null
-          ip?: string | null
-          nickname?: string | null
-          parent_id?: number | null
-          site_id?: number | null
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "comments_site_id_fkey"
-            columns: ["site_id"]
-            referencedRelation: "sites"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "comments_user_id_fkey"
-            columns: ["user_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
+      [_ in never]: never
     }
     Functions: {
       delete_anon_comment: {
