@@ -1,6 +1,6 @@
 import dayjs from "dayjs"
 import "dayjs/plugin/duration"
-import * as relativeTime from "dayjs/plugin/relativeTime"
+import relativeTime from "dayjs/plugin/relativeTime"
 import { Comment, Profile } from "../../../libs/supabase/types"
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
 import { MouseEvent } from "react"
