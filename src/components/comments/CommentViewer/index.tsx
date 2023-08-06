@@ -32,11 +32,11 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
         ref={ref}
         className={`${componentVisible ? '' : 'invisible'} absolute bg-white`}
         style={{top: top, left: left}}>
-        <ContextMenuItem
+        {/* <ContextMenuItem
           id="edit"
           icon={<PencilSquareIcon className="w-5 h-5"/>}
           title="편집"
-          onClick={() => {}}/>
+          onClick={() => {}}/>  */ /* 현재 기능 지원하지 않음. */}
         <ContextMenuItem
           className="text-red-500"
           id="delete"
