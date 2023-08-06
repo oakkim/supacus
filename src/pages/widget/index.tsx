@@ -8,6 +8,7 @@ import { User } from '@supabase/supabase-js'
 import dayjs from 'dayjs'
 import "dayjs/locale/ko"
 import withAuthStateListener from '../../hocs/withAuthStateListener'
+import { useParams } from 'react-router-dom'
 
 dayjs.locale('ko')
 
@@ -17,31 +18,17 @@ function Widget() {
   const user = useSelector<RootState>(state => state.user.user) as User
   const profile = useProfile(user)
 
+  const params = useParams<{siteId: string, contentId: string}>()
+  if (params.siteId == undefined || params.contentId == undefined) {
+    window.location.href = '/error?message=사이트 정보가 잘못 입력되었습니다.'
+  }
+  const siteId = Number.parseInt(params.siteId ?? "0")
+  const contentId = params.contentId ?? ""
+
   return (
     <div>
-      Logged in!
-      <CommentViewer key={commentViewerKey} className="mb-5" siteId={1} contentId='test' userId={user?.id}/>
-      <CommentEditor userId={user?.id} profile={profile} siteId={1} contentId='test' onSubmit={() => { setCommentViewerKey(commentViewerKey + 1) }}/>
-      <div>
-        {user?.email}
-      </div>
-      {user ? 
-        <button onClick={() => {
-          const logout = async () => {
-            await supabase.auth.signOut()
-            window.location.reload()
-          }
-          logout()
-        }}>로그아웃</button> :
-        <button onClick={() => {
-          void supabase.auth.signInWithOAuth({
-            provider: 'kakao',
-            options: {
-              redirectTo: window.location.href
-            }
-          })
-        }}>Login with kakao</button>
-      }
+      <CommentViewer key={commentViewerKey} className="mb-5" siteId={siteId} contentId={contentId} userId={user?.id}/>
+      <CommentEditor userId={user?.id} profile={profile} siteId={1} contentId='test' onSubmit={() => { setCommentViewerKey(commentViewerKey + 1) }} allowAnonymous/>
     </div>
   )
 }

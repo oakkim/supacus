@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     element: <App/>,
   },
   {
-    path: "/sites/:sitesId/widget",
+    path: "/sites/:siteId/contents/:contentId",
     element: <Widget/>
   },
   {
