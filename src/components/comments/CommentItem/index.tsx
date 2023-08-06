@@ -24,7 +24,7 @@ export default function CommentItem({comment, profile, userId, onContextMenuOpen
         </div>
         <div className="flex-1"></div>
         {
-          userId == profile?.id ? <div>
+          userId == profile?.id && userId != null ? <div>
             <EllipsisHorizontalIcon className="h-6 w-6 text-stone-500 cursor-pointer" onClick={e => {onContextMenuOpen(comment.id, e)}}/>
           </div> : <></>
         }
