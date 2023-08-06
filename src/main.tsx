@@ -15,6 +15,7 @@ import { Provider } from 'react-redux'
 import store from './stores/index'
 import Login from './pages/login/index.tsx'
 import LoginCompleted from './pages/login/LoginCompleted.tsx'
+import Error from './pages/error/index.tsx'
 
 const queryClient = new QueryClient()
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: '/login-completed',
     element: <LoginCompleted/>
+  },
+  {
+    path: '/error',
+    element: <Error/>
   }
 ])
 
