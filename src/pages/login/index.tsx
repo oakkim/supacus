@@ -1,9 +1,8 @@
 import { User } from "@supabase/supabase-js";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import useProfile from "../../hooks/user/useProfile";
 import { RootState } from "../../stores";
 import { useEffect } from "react";
-import { userAction } from "../../stores/user";
 import supabase from "../../libs/supabase";
 import withAuthStateListener from "../../hocs/withAuthStateListener";
 const loginCompletedUri = '/login-completed'

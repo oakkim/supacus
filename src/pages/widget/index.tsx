@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import supabase from '../../libs/supabase'
 import CommentViewer from '../../components/comments/CommentViewer'
 import CommentEditor from '../../components/comments/CommentEditor'
 import { useSelector } from 'react-redux'
