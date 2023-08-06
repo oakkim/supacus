@@ -28,7 +28,6 @@ export type Schema<T extends EntityNames> = {
 
 export type Sites = Schema<'sites'>
 export type Comments = Schema<'comments'>
-export type CommentsView = Schema<'comments_without_passwords'>
 export type Profiles = Schema<'profiles'>
 
 export type Site = Row<'sites'>
@@ -36,7 +35,6 @@ export type SiteInsertDto = InsertDto<'sites'>
 export type SiteUpdateDto = UpdateDto<'sites'>
 
 export type Comment = Row<'comments'>
-export type CommentGetDto = Row<'comments_without_passwords'>
 export type CommentInsertDto = InsertDto<'comments'>
 export type CommentUpdateDto = UpdateDto<'comments'>
 
