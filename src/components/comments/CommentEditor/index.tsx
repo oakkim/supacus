@@ -112,7 +112,7 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
                     <div className="flex items-center justify-center bg-kakao p-2 rounded-md cursor-pointer w-8 h-8" onClick={() => {
                         window.open('/login', 'Login', 'width=500, height=800, location=no, toolbars=no')
                       }}>
-                      <img src={kakaoLogo}/>
+                      <img className="w-full" src={kakaoLogo}/>
                     </div>
                   </div>
                 </>
