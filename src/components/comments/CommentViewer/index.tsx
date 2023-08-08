@@ -27,7 +27,7 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
   const [left, setLeft] = useState(0)
 
   return (
-    <div className={`pt-3 border-t border-x ${className}`}>
+    <div>
       <ContextMenu
         ref={ref}
         className={`${componentVisible ? '' : 'invisible'} absolute bg-white`}
@@ -66,20 +66,22 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
             }
           }}/>
       </ContextMenu>
-      {isLoading ? <>로딩중</> : (data ?? []).map((comment) => (
-        <CommentItem
-          key={comment.id}
-          comment={comment}
-          profile={comment.profiles}
-          userId={userId}
-          onContextMenuOpen={(id, e) => {
-            setWorkingCommentId(id)
-            setComponentVisible(true)
-            const rect = e.currentTarget.getBoundingClientRect()
-            setLeft(rect.left - ((ref.current?.clientWidth ?? 0) + window.scrollX))
-            setTop(rect.top + ((e.currentTarget.clientHeight / 2) + window.scrollY))
-          }}/>
-      ))}
+      <div className={`border-x ${className}`}>
+        {isLoading ? <>로딩중</> : (data ?? []).map((comment) => (
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+            profile={comment.profiles}
+            userId={userId}
+            onContextMenuOpen={(id, e) => {
+              setWorkingCommentId(id)
+              setComponentVisible(true)
+              const rect = e.currentTarget.getBoundingClientRect()
+              setLeft(rect.left - ((ref.current?.clientWidth ?? 0) + window.scrollX))
+              setTop(rect.top + ((e.currentTarget.clientHeight / 2) + window.scrollY))
+            }}/>
+        ))}
+      </div>
     </div>
   )
 }

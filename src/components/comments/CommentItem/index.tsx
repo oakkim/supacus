@@ -16,7 +16,7 @@ type CommentItemProps = {
 
 export default function CommentItem({comment, profile, userId, onContextMenuOpen}: CommentItemProps) {
   return (
-    <div className="w-full mb-3 pb-3 px-3 border-b last:mb-0">
+    <div className="w-full mb-3 pb-3 px-3 border-b first:pt-3 first:border-t last:mb-0">
       <div className="flex mb-2 items-center">
         {profile?.avatar_url && <img className="rounded-full border mr-2" src={profile.avatar_url} width="30"/>}
         <div>
