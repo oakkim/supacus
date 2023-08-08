@@ -67,7 +67,7 @@ export default function CommentViewer({ className, siteId, contentId, userId }: 
           }}/>
       </ContextMenu>
       <div className={`border-x ${className}`}>
-        {isLoading ? <>로딩중</> : (data ?? []).map((comment) => (
+        {isLoading ? <div className="border-y p-3">로딩중</div> : !data || data.length == 0 ? <div className="border-y p-3">첫번째 댓글을 남겨보세요!</div> : data.map((comment) => (
           <CommentItem
             key={comment.id}
             comment={comment}
