@@ -28,7 +28,7 @@ function Widget() {
   return (
     <div>
       <CommentViewer key={commentViewerKey} className="mb-5" siteId={siteId} contentId={contentId} userId={user?.id}/>
-      <CommentEditor userId={user?.id} profile={profile} siteId={1} contentId='test' onSubmit={() => { setCommentViewerKey(commentViewerKey + 1) }} allowAnonymous/>
+      <CommentEditor userId={user?.id} profile={profile} siteId={1} contentId={contentId} onSubmit={() => { setCommentViewerKey(commentViewerKey + 1) }} allowAnonymous/>
     </div>
   )
 }
