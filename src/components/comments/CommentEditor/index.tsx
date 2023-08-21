@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import commentRepository from "../../../repositories/comment"
 import { CommentInsertDto, Profile } from "../../../libs/supabase/types"
 import kakaoLogo from '../../../assets/auth/icons/icon_kakao.svg'
@@ -9,18 +9,23 @@ import { userAction } from "../../../stores/user"
 import useClientIp from "../../../hooks/useClientIp"
 import useShortcut from "../../../hooks/useShortcut"
 import { useMediaQuery } from "react-responsive"
+import { useSearchParams } from "react-router-dom"
+import { Session } from "@supabase/supabase-js"
 
 type CommentEditorProps = {
   className?: string,
   userId: string|null,
   profile?: Profile|null,
   siteId: number,
+  siteOrigin: string,
   contentId: string,
   allowAnonymous?: boolean,
   onSubmit: () => void
 }
 
-export default function CommentEditor({ className, userId, profile, siteId, contentId, allowAnonymous = false, onSubmit }: CommentEditorProps) {
+export default function CommentEditor({ className, userId, profile, siteId, siteOrigin, contentId, allowAnonymous = false, onSubmit }: CommentEditorProps) {
+  const [searchParams] = useSearchParams()
+
   const nicknameInputRef = useRef<HTMLInputElement>(null)
   const [nickname, setNickname] = useState<string>("")
   const [content, setContent] = useState<string>("")
@@ -77,6 +82,31 @@ export default function CommentEditor({ className, userId, profile, siteId, cont
     callback: handleNewLineAction,
     disabled: isMobile
   }])
+
+  useEffect(() => {
+    const listener = (e: MessageEvent) => {
+      const session = e.data as Session
+      window.parent.postMessage(session, siteOrigin)
+    }
+    window.addEventListener("message", listener)
+    return (() => {
+      window.removeEventListener("message", listener)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (searchParams) {
+      if (searchParams.has('accessToken') && searchParams.has('refreshToken')) {
+        const setSession = async () => {
+          await supabase.auth.setSession({
+            access_token: searchParams.get('accessToken')!,
+            refresh_token: searchParams.get('refreshToken')!
+          })
+        }
+        setSession()
+      }
+    }
+  }, [searchParams])
 
   return (
     <>

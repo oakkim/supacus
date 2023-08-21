@@ -9,6 +9,8 @@ import dayjs from 'dayjs'
 import "dayjs/locale/ko"
 import withAuthStateListener from '../../hocs/withAuthStateListener'
 import { useParams } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import siteRepository from '../../repositories/site'
 
 dayjs.locale('ko')
 
@@ -25,10 +27,21 @@ function Widget() {
   const siteId = Number.parseInt(params.siteId ?? "0")
   const contentId = params.contentId ?? ""
 
+  const { data } = useQuery({
+    queryKey: ['sites', siteId],
+    queryFn: () => siteRepository.fetchById(siteId).then(r => r.data)
+  })
+
   return (
     <div>
       <CommentViewer key={commentViewerKey} className="mb-5" siteId={siteId} contentId={contentId} userId={user?.id}/>
-      <CommentEditor userId={user?.id} profile={profile} siteId={1} contentId={contentId} onSubmit={() => { setCommentViewerKey(commentViewerKey + 1) }} allowAnonymous/>
+      <CommentEditor userId={user?.id}
+          profile={profile}
+          siteId={siteId}
+          siteOrigin={data?.origin ?? "*"}
+          contentId={contentId}
+          onSubmit={() => { setCommentViewerKey(commentViewerKey + 1) }}
+          allowAnonymous/>
     </div>
   )
 }
