@@ -15,8 +15,10 @@ function LoginCompleted() {
     if (user != null && profile != null && !messageSent) {
       const retriveSessionAndSendToOpener = async () => {
         const { data, error } = await supabase.auth.getSession()
-        window.opener.postMessage(data.session, process.env.PUBLIC_URL)
-        setMessageSent(true)
+        if (!error) {
+          window.opener.postMessage(data.session, process.env.PUBLIC_URL)
+          setMessageSent(true)
+        }
         window.close()
       }
       retriveSessionAndSendToOpener()
